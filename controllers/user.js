@@ -1,11 +1,12 @@
 const firebaseDb = require('../firebase-database')
 const libphonenumber = require('libphonenumber-js')
 const utils = require('../utils')
+const collections = require('../collections')
 
 const getUserWithEmail = function (req, res, next) {
   var userEmail = req.params.userEmail
 
-  const usersRef = firebaseDb.getInstance().collection('users')
+  const usersRef = firebaseDb.getInstance().collection(collections.userCollection)
   usersRef.where('email', '==', userEmail).get()
     .then(snapshot => {
       if (snapshot.empty) {
@@ -25,7 +26,7 @@ const getUserWithEmail = function (req, res, next) {
 
 const postUser = function (req, res, next) {
   const user = req.body
-  const usersRef = firebaseDb.getInstance().collection('users')
+  const usersRef = firebaseDb.getInstance().collection(collections.userCollection)
 
   const promises = [
     usersRef.where('studentId', '==', user.studentId).get(),
@@ -71,7 +72,7 @@ const updateUser = function (req, res) {
   var userId = req.params.id
   var userBody = req.body
   var user
-  const usersRef = firebaseDb.getInstance().collection('users')
+  const usersRef = firebaseDb.getInstance().collection(collections.userCollection)
   var userRef = usersRef.doc(userId)
   userRef.get()
     .then(userDoc => {
@@ -114,7 +115,7 @@ const updateUser = function (req, res) {
 
 const deleteUser = function (req, res) {
   var userId = req.params.id
-  const usersRef = firebaseDb.getInstance().collection('users')
+  const usersRef = firebaseDb.getInstance().collection(collections.userCollection)
   var userRef = usersRef.doc(userId)
   userRef.get()
     .then(userDoc => {
