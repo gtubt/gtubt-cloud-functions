@@ -113,7 +113,9 @@ const postEvent = function (req, res, next) {
     title: utils.toTitleCase(event.title),
     description: event.description,
     date: event.date,
-    coverImageUrl: event.coverImageUrl
+    coverImageUrl: event.coverImageUrl,
+    createdDate: event.createdDate,
+    expireDate: event.expireDate,
   })
     .then(ref => {
       var eventRef = eventsRef.doc(ref.id)
