@@ -1,8 +1,9 @@
 const firebaseDb = require('../firebase-database')
 const utils = require('../utils')
+const collections = require('../collections')
 
 const getAllPosts = function (req, res, next) {
-  var postsRef = firebaseDb.getInstance().collection('posts')
+  var postsRef = firebaseDb.getInstance().collection(collections.postCollection)
   postsRef.get()
     .then(snapshot => {
       if (snapshot.empty) {
@@ -26,7 +27,7 @@ const getAllPosts = function (req, res, next) {
 const getPostWithId = function (req, res, next) {
   var postId = req.params.postId
 
-  const docRef = firebaseDb.getInstance().collection('posts').doc(postId)
+  const docRef = firebaseDb.getInstance().collection(collections.postCollection).doc(postId)
   docRef.get()
     .then(doc => {
       if (!doc.exists) {
@@ -42,7 +43,7 @@ const getPostWithId = function (req, res, next) {
 
 const postPost = function (req, res, next) {
   const post = req.body
-  const postsRef = firebaseDb.getInstance().collection('posts')
+  const postsRef = firebaseDb.getInstance().collection(collections.postCollection)
   postsRef.add({
     title: utils.toTitleCase(post.title),
     body: post.body,
@@ -70,7 +71,7 @@ const postPost = function (req, res, next) {
 const updatePost = function (req, res) {
   var postId = req.params.id
   const postBody = req.body
-  const postsRef = firebaseDb.getInstance().collection('posts')
+  const postsRef = firebaseDb.getInstance().collection(collections.postCollection)
   var post
   postRef = postsRef.doc(postId)
   postRef.get()
@@ -100,7 +101,7 @@ const updatePost = function (req, res) {
 
 const deletePost = function (req, res) {
   var postId = req.params.id
-  const postsRef = firebaseDb.getInstance().collection('posts')
+  const postsRef = firebaseDb.getInstance().collection(collections.postCollection)
   var postRef = postsRef.doc(postId)
   postRef.get()
     .then(postDoc => {

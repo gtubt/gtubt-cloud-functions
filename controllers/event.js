@@ -1,8 +1,9 @@
 const firebaseDb = require('../firebase-database')
 const utils = require('../utils')
+const collections = require('../collections')
 
 const getAllEvents = function (req, res, next) {
-  var eventsRef = firebaseDb.getInstance().collection('events')
+  var eventsRef = firebaseDb.getInstance().collection(collections.eventCollection)
   eventsRef.get()
     .then(snapshot => {
       if (snapshot.empty) {
@@ -26,7 +27,7 @@ const getAllEvents = function (req, res, next) {
 const getEventWithId = function (req, res, next) {
   var eventId = req.params.eventId
 
-  const docRef = firebaseDb.getInstance().collection('events').doc(eventId)
+  const docRef = firebaseDb.getInstance().collection(collections.eventCollection).doc(eventId)
   docRef.get()
     .then(doc => {
       if (!doc.exists) {
@@ -43,7 +44,7 @@ const getEventWithId = function (req, res, next) {
 const deleteEventWithId = function (req, res, next) {
   var eventId = req.params.eventId
 
-  const docRef = firebaseDb.getInstance().collection('events').doc(eventId)
+  const docRef = firebaseDb.getInstance().collection(collections.eventCollection).doc(eventId)
   docRef.get()
     .then(eventDoc => {
       docRef.delete()
@@ -66,7 +67,7 @@ const updateEvent = function (req, res) {
   var eventId = req.params.eventId
   var eventBody = req.body
   var event
-  var eventRef = firebaseDb.getInstance().collection('events').doc(eventId)
+  var eventRef = firebaseDb.getInstance().collection(collections.eventCollection).doc(eventId)
   eventRef.get()
     .then(eventDoc => {
       event = eventDoc.data()
@@ -107,7 +108,7 @@ const updateEvent = function (req, res) {
 
 const postEvent = function (req, res, next) {
   const event = req.body
-  const eventsRef = firebaseDb.getInstance().collection('events')
+  const eventsRef = firebaseDb.getInstance().collection(collections.eventCollection)
   eventsRef.add({
     title: utils.toTitleCase(event.title),
     description: event.description,
