@@ -27,12 +27,9 @@ const postUser = function (req, res, next) {
   const user = req.body
   const usersRef = firebaseDb.getInstance().collection('users')
 
-  const sanitizedPhoneNumber = libphonenumber.parsePhoneNumberFromString(user.phone, 'TR').formatNational()
-
   const promises = [
     usersRef.where('studentId', '==', user.studentId).get(),
     usersRef.where('email', '==', user.email).get(),
-    usersRef.where('phone', '==', sanitizedPhoneNumber).get()
   ]
 
   Promise.all(promises)
@@ -47,20 +44,12 @@ const postUser = function (req, res, next) {
         return res.status(400).json(utils.getResponseObj(null, 'A user with this E-Mail already exists', 400))
       }
 
-      // given phone number already exists
-      if (!snapshots[2].empty) {
-        return res.status(400).json(utils.getResponseObj(null, 'A user with this phone number already exists', 400))
-      }
-
       usersRef.add({
         name: utils.toTitleCase(user.name),
         lastname: utils.toTitleCase(user.lastname),
-        phone: sanitizedPhoneNumber,
         email: user.email,
         studentId: user.studentId,
-        year: user.year,
         department: user.department,
-        profilePhoto: user.profilePhoto
       }).then(ref => {
         var userRef = usersRef.doc(ref.id)
 
