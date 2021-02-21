@@ -1,0 +1,14 @@
+{
+  "development": {
+    "storage": "gtubt_db_dev",
+    "dialect": "sqlite"
+  },
+  "test": {
+    "storage": "gtubt_db_test",
+    "dialect": "sqlite"
+  },
+  "production": {
+    "storage": "gtubt_db_prod",
+    "dialect": "sqlite"
+  }
+}
