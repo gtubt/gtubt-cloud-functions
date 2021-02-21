@@ -1,2 +1,8 @@
-# GTUBT Cloud Functions
-### Google Cloud Functions Backend for GTUBT
+# GTUBT Backend
+### NodeJS Backend for GTUBT
+
+Using following stack:
+
+* NodeJS
+* Sequelize
+* SQLite 3
