@@ -1,0 +1,25 @@
+{
+  "name": "gtubt-backend",
+  "version": "1.0.0",
+  "description": "gtubt general application backend",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gtubt/gtubt-cloud-functions.git"
+  },
+  "author": "GTUBT Dev Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gtubt/gtubt-cloud-functions/issues"
+  },
+  "homepage": "https://github.com/gtubt/gtubt-cloud-functions#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7",
+    "sequelize": "^6.5.0",
+    "sqlite3": "^5.0.2"
+  }
+}
