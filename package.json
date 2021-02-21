@@ -22,5 +22,8 @@
     "nodemon": "^2.0.7",
     "sequelize": "^6.5.0",
     "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "prettier": "2.2.1"
   }
 }
