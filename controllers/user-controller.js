@@ -36,11 +36,9 @@ const create_user = async (req, res) => {
   await user_model
     .create(user_data)
     .then((result) => {
-      console.log(result);
       res.status(200).json(utils.getResponseObj(user_data, "User successfully created.", 200));
     })
     .catch((error) => {
-      console.log(error);
       res.status(404).json(utils.getResponseObj(null, `User can not be created. Reason: ${error.errors[0].message}`, 404));
     });
 };
