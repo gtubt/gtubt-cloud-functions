@@ -1,8 +1,8 @@
-const user_model = require("../../models").User;
+const { User } = require("../../models");
 const utils = require("../../utils");
 
 const get_all_users = async (req, res) => {
-  await user_model.findAll().then((result) => {
+  await User.findAll().then((result) => {
     res.status(200).json(result);
   });
 };
@@ -10,7 +10,7 @@ const get_all_users = async (req, res) => {
 const get_user_with_email = async (req, res) => {
   const email = req.params.email;
 
-  await user_model
+  await User
     .findAll({
       where: {
         email: email
@@ -33,7 +33,7 @@ const get_user_with_email = async (req, res) => {
 const create_user = async (req, res) => {
   const user_data = req.body;
 
-  await user_model
+  await User
     .create(user_data)
     .then((result) => {
       console.log(result);
@@ -60,7 +60,7 @@ const update_user = async (req, res) => {
     phone: body.phone
   };
 
-  await user_model
+  await User
     .update(user_data, {
       where: {
         id: body.id
@@ -81,7 +81,7 @@ const update_user = async (req, res) => {
 const delete_user = async (req, res) => {
   const email = req.params.email;
 
-  await user_model
+  await User
     .destroy({
       where: {
         email: email
