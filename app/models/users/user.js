@@ -13,13 +13,74 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      name: DataTypes.STRING,
-      lastname: DataTypes.STRING,
-      department: DataTypes.STRING,
-      year: DataTypes.INTEGER,
-      email: DataTypes.STRING,
-      studentId: DataTypes.STRING,
-      phone: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isAlpha: true,
+          notEmpty: true,
+        },
+      },
+      lastname: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isAlpha: true,
+          notEmpty: true,
+        },
+      },
+      department: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isAlpha: true,
+          notEmpty: true,
+          isIn: [["cse", "eee"]],
+        },
+      },
+      year: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          min: 1,
+        },
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true,
+        },
+      },
+      studentId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          len: [8, 12],
+        },
+      },
+      phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          is_valid_phone_number(value) {
+            if (!value) return value;
+
+            var regexp = /^[0-9]+$/;
+            var values = Array.isArray(value) ? value : [value];
+
+            values.forEach(function (val) {
+              if (!regexp.test(val)) {
+                throw new Error("Only numbers in the phone number is allowed.");
+              }
+            });
+            return value;
+          },
+        },
+      },
     },
     {
       sequelize,
