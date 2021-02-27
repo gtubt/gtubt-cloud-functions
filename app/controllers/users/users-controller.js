@@ -7,30 +7,11 @@ const get_all_users = async (req, res) => {
   });
 };
 
-const get_user_with_email = async (req, res) => {
-  const email = req.params.email;
-
-  await User
-    .findAll({
-      where: {
-        email: email
-      }
-    })
-    .then((result) => {
-      const user_data = result[0];
-
-      if (result.length === 0) {
-        res.status(404).json(utils.getResponseObj(null, "User can not be retrieved.", 404));
-      } else {
-        res.status(200).json(utils.getResponseObj(user_data, "User received.", 200));
-      }
-    })
-    .catch((error) => {
-      res.status(404).json(utils.getResponseObj(null, `User can not be retrieved. Reason: ${error.errors[0].message}`, 404));
-    });
+const get_user_with_email = async (req, res, next) => {
+  res.status(200).json(utils.getResponseObj(req.user, "User received.", 200));
 };
 
-const create_user = async (req, res) => {
+const create_user = async (req, res, next) => {
   const user_data = req.body;
 
   await User
@@ -43,46 +24,46 @@ const create_user = async (req, res) => {
     });
 };
 
-const update_user = async (req, res) => {
-  const email = req.params.email;
+const update_user = async (req, res, next) => {
+  const user = req.user;
   const body = req.body;
 
   // Creating this object to isolate id from request body
   const user_data = {
-    name: body.name,
-    lastName: body.lastName,
-    department: body.department,
-    year: body.year,
-    email: email,
-    studentId: body.studentId,
-    phone: body.phone
+    name: body.name == null ? user.name : body.name,
+    lastname: body.lastname == null ? user.lastname : body.lastname,
+    department: body.department == null ? user.department : body.department,
+    year: body.year == null ? user.year : body.year,
+    email: user.email,
+    studentId: body.studentId == null ? user.studentId : body.studentId,
+    phone: body.phone == null ? user.phone : body.phone
   };
 
   await User
     .update(user_data, {
       where: {
-        id: body.id
+        id: user.id
       }
     })
     .then((result) => {
       if (result[0] === 0) {
-        res.status(404).json(utils.getResponseObj(null, "User can not be updated.", 404));
+        res.status(404).json(utils.getResponseObj(null, "?User can not be updated.", 404));
       } else {
         res.status(200).json(utils.getResponseObj(user_data, "User successfully updated.", 200));
       }
     })
     .catch((error) => {
-      res.status(404).json(utils.getResponseObj(null, "User can not be updated.", 404));
+      res.status(404).json(utils.getResponseObj(null, `User can not be updated. Reason: ${error.errors[0].message}`, 404));
     });
 };
 
-const delete_user = async (req, res) => {
-  const email = req.params.email;
+const delete_user = async (req, res, next) => {
+  const id = req.user.id;
 
   await User
     .destroy({
       where: {
-        email: email
+        id: id
       }
     })
     .then((result) => {

@@ -11,23 +11,24 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
+
   User.init(
     {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isAlpha: true,
-          notEmpty: true,
-        },
+          is: /^[A-Za-z\s]+$/i,
+          notEmpty: true
+        }
       },
       lastname: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          isAlpha: true,
-          notEmpty: true,
-        },
+          is: /^[A-Za-z\s]+$/i,
+          notEmpty: true
+        }
       },
       department: {
         type: DataTypes.STRING,
@@ -35,31 +36,32 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isAlpha: true,
           notEmpty: true,
-          isIn: [["cse", "eee"]],
-        },
+          isIn: [["cse", "eee"]]
+        }
       },
       year: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          min: 1,
-        },
+          isNumeric: true,
+          min: 1
+        }
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
         validate: {
-          isEmail: true,
-        },
+          isEmail: true
+        }
       },
       studentId: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
         validate: {
-          len: [8, 12],
-        },
+          len: [8, 12]
+        }
       },
       phone: {
         type: DataTypes.STRING,
@@ -72,19 +74,19 @@ module.exports = (sequelize, DataTypes) => {
             var regexp = /^[0-9]+$/;
             var values = Array.isArray(value) ? value : [value];
 
-            values.forEach(function (val) {
+            values.forEach(function(val) {
               if (!regexp.test(val)) {
                 throw new Error("Only numbers in the phone number is allowed.");
               }
             });
             return value;
-          },
-        },
-      },
+          }
+        }
+      }
     },
     {
       sequelize,
-      modelName: "User",
+      modelName: "User"
     }
   );
   return User;
