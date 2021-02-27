@@ -1,4 +1,4 @@
-const getResponseObj = function (body, message, status) {
+const get_response_object = function (body, message, status) {
   return {
     Body: body,
     Message: message,
@@ -8,5 +8,5 @@ const getResponseObj = function (body, message, status) {
 
 // export functions
 module.exports = {
-  getResponseObj: getResponseObj,
+  get_response_object: get_response_object,
 };
