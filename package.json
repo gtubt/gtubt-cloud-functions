@@ -1,28 +1,32 @@
 {
-  "name": "cloud-functions",
+  "name": "gtubt-backend",
   "version": "1.0.0",
-  "description": "Cloud Functions for GTUBT Mobile Application",
-  "main": "index.js",
+  "description": "gtubt general application backend",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
-    "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/"
+    "start": "nodemon server.js"
   },
-  "author": "GTUBT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gtubt/gtubt-cloud-functions.git"
+  },
+  "author": "GTUBT Dev Team",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gtubt/gtubt-cloud-functions/issues"
+  },
+  "homepage": "https://github.com/gtubt/gtubt-cloud-functions#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "firebase-admin": "^8.10.0",
-    "libphonenumber-js": "^1.7.48"
+    "nodemon": "^2.0.7",
+    "sequelize": "^6.5.0",
+    "sqlite3": "^5.0.2",
+    "swagger": "^0.7.5",
+    "swagger-editor": "^3.15.7"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "nodemon": "^2.0.2"
-  }
+    "prettier": "2.2.1"
+  },
+  "swagger:edit": "swagger project edit"
 }
