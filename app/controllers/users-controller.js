@@ -7,7 +7,7 @@ const get_all_users = async (req, res) => {
   });
 };
 
-const get_user_with_email = async (req, res, next) => {
+const get_user = async (req, res, next) => {
   res.status(200).json(utils.get_response_object(req.user, "User received.", 200));
 };
 
@@ -74,7 +74,7 @@ const delete_user = async (req, res, next) => {
 // export handlers
 module.exports = {
   get_all_users: get_all_users,
-  get_user_with_email: get_user_with_email,
+  get_user: get_user,
   create_user: create_user,
   update_user: update_user,
   delete_user: delete_user,
