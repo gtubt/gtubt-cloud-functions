@@ -27,7 +27,6 @@ const update_user = async (req, res, next) => {
   const user = req.user;
   const body = req.body;
 
-  // Creating this object to isolate id from request body
   const user_data = {
     name: body.name == null ? user.name : body.name,
     lastname: body.lastname == null ? user.lastname : body.lastname,
