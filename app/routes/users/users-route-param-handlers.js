@@ -1,7 +1,7 @@
 const { User } = require("../../models");
 const utils = require("../../utils");
 
-const user_route_param_handler = async (req, res, next, value) => {
+const user_param_handler = async (req, res, next, value) => {
   let user;
 
   if (!isNaN(value)) {
@@ -23,4 +23,6 @@ const user_route_param_handler = async (req, res, next, value) => {
   }
 };
 
-module.exports = user_route_param_handler;
+module.exports = {
+  user_param_handler: user_param_handler,
+};
