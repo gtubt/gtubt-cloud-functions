@@ -3,9 +3,9 @@
 const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
-const Umzug = require('umzug')
+const Umzug = require("umzug");
 
-const APP_PATH = path.resolve(__dirname, "..")
+const APP_PATH = path.resolve(__dirname, "..");
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 const config = require(APP_PATH + "/config/config.json")[env];
@@ -24,15 +24,12 @@ const umzug = new Umzug({
     // indicates the folder containing the migration .js files
     path: APP_PATH + "/migrations",
     // inject sequelize's QueryInterface in the migrations
-    params: [
-      sequelize.getQueryInterface(),
-      Sequelize
-    ]
+    params: [sequelize.getQueryInterface(), Sequelize],
   },
-  storage: 'sequelize',
+  storage: "sequelize",
   storageOptions: {
-    sequelize: sequelize
-  }
+    sequelize: sequelize,
+  },
 });
 
 fs.readdirSync(__dirname)
@@ -61,14 +58,12 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 (async () => {
-  // Try to migrate pending migrations.   
+  // Try to migrate pending migrations.
   await umzug.up();
 
   // Sync models with table, can be destructive.
-  // Instead, create a migration for changes on field types. 
+  // Instead, create a migration for changes on field types.
   await sequelize.sync({ alter: true });
 })();
-
-
 
 module.exports = db;
