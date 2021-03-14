@@ -89,7 +89,7 @@ const update_user = async (req, res, next) => {
     email: user.email,
     studentId: body.studentId == null ? user.studentId : body.studentId,
     phone: body.phone == null ? user.phone : body.phone,
-    photoUrl: req.photoUrl,
+    photoUrl: user.photoUrl,
   };
 
   await User.update(user_data, {
