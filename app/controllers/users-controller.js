@@ -52,7 +52,7 @@ const upload_user_photo = async (req, res, next) => {
           } else {
             res.status(200).json(utils.get_response_object(req.user, "Photo updated successfully.", 200));
 
-            clearOldPhoto(oldPhotoUrl);
+            clear_old_photo(oldPhotoUrl);
           }
         })
         .catch((error) => {
@@ -63,7 +63,7 @@ const upload_user_photo = async (req, res, next) => {
   });
 };
 
-const clearOldPhoto = (url) => {
+const clear_old_photo = (url) => {
   if (url && url.trim()) {
     const urlParts = url.split("/");
     const uuid = urlParts[urlParts.length - 1];
