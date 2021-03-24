@@ -63,6 +63,7 @@ module.exports = (sequelize, DataTypes) => {
           len: [8, 12],
         },
       },
+      photoUrl: DataTypes.STRING,
       phone: {
         type: DataTypes.STRING,
         allowNull: false,
