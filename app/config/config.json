@@ -1,14 +1,20 @@
 {
   "development": {
     "storage": "gtubt_db_dev",
-    "dialect": "sqlite"
+    "dialect": "sqlite",
+    "PROFILE_PHOTO_PATH": "/opt/data/photo/profile",
+    "BASE_URL": "http://localhost:3000"
   },
   "test": {
     "storage": "gtubt_db_test",
-    "dialect": "sqlite"
+    "dialect": "sqlite",
+    "PROFILE_PHOTO_PATH": "/opt/data/photo/profile",
+    "BASE_URL": "https://localhost:3000"
   },
   "production": {
     "storage": "gtubt_db_prod",
-    "dialect": "sqlite"
+    "dialect": "sqlite",
+    "PROFILE_PHOTO_PATH": "/opt/data/photo/profile",
+    "BASE_URL": "https://localhost:3000"
   }
 }
