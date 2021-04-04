@@ -63,5 +63,11 @@ node_modules/
 
 # dotenv environment variables file
 .env
-package-lock.json
+
+# Intellij and vscode files
+.idea
 .vscode
+
+package-lock.json
+
+gtubt_db_dev
