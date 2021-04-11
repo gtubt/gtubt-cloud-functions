@@ -1,6 +1,6 @@
 # GTUBT Backend
 
-### NodeJS Backend for GTUBT
+## NodeJS Backend for GTUBT
 
 Using following stack:
 
@@ -8,23 +8,39 @@ Using following stack:
 - Sequelize
 - SQLite 3
 
-# Runnning The Server
+### Create Development Database
 
+```bash
+sqlite3 gtubt_db_dev ";"
 ```
+
+### Runnning The Server (Docker)
+
+```bash
+docker-compose up
+```
+
+to run the server.
+
+### Runnning The Server (Local)
+
+```bash
 npm install
 ```
 
 to retrieve necessary packages.
 
-```
+```bash
 npm start
 ```
 
 to run the server.
 
-# Tips
+----
 
-## Code-First DB Schema
+## Tips
+
+### Code-First DB Schema
 
 To create new models or add new fields to existing models you just need to edit model files.
 
