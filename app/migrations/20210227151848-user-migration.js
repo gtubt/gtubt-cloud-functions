@@ -35,7 +35,7 @@ module.exports = {
       },
       year: {
         type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         validate: {
           isNumeric: true,
           min: 1,
@@ -59,7 +59,7 @@ module.exports = {
       },
       phone: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: true,
         validate: {
           is_valid_phone_number(value) {
