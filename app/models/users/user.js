@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       year: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         validate: {
           isNumeric: true,
           min: 1,
@@ -66,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
       photoUrl: DataTypes.STRING,
       phone: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: true,
         validate: {
           is_valid_phone_number(value) {
