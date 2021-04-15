@@ -7,7 +7,7 @@ function restrict_to_admin(req, res, next) {
 }
 
 function restrict_to_self(req, res, next) {
-  const firebaseToken = req.get("x-firebase-header");
+  const firebaseToken = req.get("x-firebase-token");
   admin
     .auth()
     .verifyIdToken(firebaseToken)
@@ -16,7 +16,7 @@ function restrict_to_self(req, res, next) {
       next();
     })
     .catch((error) => {
-      res.status(404).json(utils.get_response_object(null, `Unable to verify ID token. Reason: ${error}`, 404));
+      res.status(401).json(utils.get_response_object(null, `User Unauthorized: Unable to verify ID token. Reason: ${error}`, 401));
     });
 }
 
