@@ -23,13 +23,13 @@ function validate_user(req, res, next) {
             next();
           })
           .catch((error) => {
-            // If database doesn't contain a user with token's email, don't attach firebase_user to request.
-            next();
+            // If database doesn't contain a user with token's email, don't allow.
+            res.status(401).json(utils.get_response_object(null, `User with email does not exist in database.`));
           });
       })
       .catch((error) => {
-        // If firebase token can not be verified, don't attach firebase_user to request.
-        next();
+        // If firebase token can not be verified, don't allow.
+        res.status(401).json(utils.get_response_object(null, `Invalid firebase token.`));
       });
   } else {
     // No firebase user token, attaching nothing to request.firebase_user.
