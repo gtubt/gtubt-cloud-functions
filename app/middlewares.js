@@ -23,14 +23,12 @@ function validate_user(req, res, next) {
             next();
           })
           .catch((error) => {
-            // If database doesn't contain a user with token's email, there is a registration error.
-            res.status(401).json(utils.get_response_object(null, `User with email is not registered.`, 401));
+            // If database doesn't contain a user with token's email, don't attach firebase_user to request.
             next();
           });
       })
       .catch((error) => {
-        // If firebase token can not be verified, give an error and don't attach firebase_user to request.
-        res.status(401).json(utils.get_response_object(null, `User Unauthorized: Unable to verify ID token. Reason: ${error}`, 401));
+        // If firebase token can not be verified, don't attach firebase_user to request.
         next();
       });
   } else {
