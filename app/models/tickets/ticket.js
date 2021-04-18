@@ -8,16 +8,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      Ticket.belongsTo(models.User, { as: "owner" });
       // define association here
     }
   }
 
   Ticket.init(
     {
-      owner_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       title: {
         type: DataTypes.STRING,
         allowNull: false,
