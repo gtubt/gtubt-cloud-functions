@@ -2,6 +2,7 @@ const { User } = require("../models");
 const utils = require("../utils");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
+const firebase_admin = require("firebase-admin");
 
 const path = require("path");
 const env = process.env.NODE_ENV || "development";
@@ -21,13 +22,38 @@ const get_user = async (req, res, next) => {
 const create_user = async (req, res, next) => {
   const user_data = req.body;
 
-  await User.create(user_data)
-    .then((result) => {
-      res.status(200).json(utils.get_response_object(user_data, "User successfully created.", 200));
-    })
-    .catch((error) => {
-      res.status(404).json(utils.get_response_object(null, `User can not be created. Reason: ${error.errors[0].message}`, 404));
-    });
+  // We first need to validate for firebase user creation.
+  const firebase_token = req.get("x-firebase-token");
+  if (firebase_token) {
+    // Verify token.
+    firebase_admin
+      .auth()
+      .verifyIdToken(firebase_token)
+      .then((decoded_token) => {
+        // Check if token's email and request's email match
+        if (decoded_token.email == user_data.email) {
+          // Try to create user in database.
+          User.create(user_data)
+            .then((result) => {
+              res.status(200).json(utils.get_response_object(user_data, "User successfully created.", 200));
+            })
+            .catch((error) => {
+              // Catch sequelize errors here. (Unique fields, verifications errors, etc.)
+              res.status(404).json(utils.get_response_object(null, `User can not be created. Reason: ${error.errors[0].message}`, 404));
+            });
+        } else {
+          // If emails don't match, don't allow.
+          res.status(401).json(utils.get_response_object(null, `Firebase user and request user email mismatch.`, 401));
+        }
+      })
+      .catch((error) => {
+        // Token unverified, don't allow.
+        res.status(401).json(utils.get_response_object(null, `Firebase token can't be verified.`));
+      });
+  } else {
+    // No token provided, don't allow.
+    res.status(404).json(utils.get_response_object(null, `User can not be created. No firebase user token found.`, 404));
+  }
 };
 
 const upload_user_photo = async (req, res, next) => {
