@@ -16,7 +16,7 @@ const create_post = async (req, res, next) => {
 
   await Post.create(post_data)
     .then((result) => {
-      res.status(200).json(utils.get_response_object(post_data, "Post successfully created.", 200));
+      res.status(200).json(utils.get_response_object(result, "Post successfully created.", 200));
     })
     .catch((error) => {
       res.status(404).json(utils.get_response_object(null, `Post can not be created. Reason: ${error.errors[0].message}`, 404));
@@ -29,7 +29,7 @@ const update_post = async (req, res, next) => {
 
   const post_data = {
     title: body.title == null ? post.title : body.title,
-    description: body.description == null ? post.description : body.description,
+    body: body.body == null ? post.body : body.body,
     coverImageUrl: body.coverImageUrl == null ? post.coverImageUrl : body.coverImageUrl,
     summary: body.summary == null ? post.summary : body.summary,
     type: body.type == null ? post.type : body.type,

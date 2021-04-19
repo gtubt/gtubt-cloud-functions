@@ -4,7 +4,8 @@
   "description": "gtubt general application backend",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "test": "mocha --recursive ./test/**/test*.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "axios": "^0.21.1",
     "prettier": "2.2.1"
   },
   "swagger:edit": "swagger project edit"
