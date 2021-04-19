@@ -1,35 +1,29 @@
 "use strict";
-const { Model } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
-  class Post extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  }
-
-  Post.init(
-    {
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable("News", {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
       title: {
-        type: DataTypes.STRING,
+        type: Sequelize.DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
         },
       },
       body: {
-        type: DataTypes.STRING,
+        type: Sequelize.DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
         },
       },
       coverImageUrl: {
-        type: DataTypes.STRING,
+        type: Sequelize.DataTypes.STRING,
         allowNull: false,
         validate: {
           isUrl: true,
@@ -37,14 +31,14 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       summary: {
-        type: DataTypes.STRING,
+        type: Sequelize.DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
         },
       },
       type: {
-        type: DataTypes.STRING,
+        type: Sequelize.DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
@@ -52,24 +46,22 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       startDate: {
-        type: DataTypes.STRING,
+        type: Sequelize.DataTypes.STRING,
         allowNull: false,
         validate: {
           isDate: true,
         },
       },
       endDate: {
-        type: DataTypes.STRING,
+        type: Sequelize.DataTypes.STRING,
         allowNull: false,
         validate: {
           isDate: true,
         },
       },
-    },
-    {
-      sequelize,
-      modelName: "Post",
-    }
-  );
-  return Post;
+    });
+  },
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable("News");
+  },
 };

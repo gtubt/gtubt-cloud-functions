@@ -1,29 +1,35 @@
 "use strict";
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Posts", {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
+const { Model } = require("sequelize");
+module.exports = (sequelize, DataTypes) => {
+  class News extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  }
+
+  News.init(
+    {
       title: {
-        type: Sequelize.DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
         },
       },
       body: {
-        type: Sequelize.DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
         },
       },
       coverImageUrl: {
-        type: Sequelize.DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           isUrl: true,
@@ -31,14 +37,14 @@ module.exports = {
         },
       },
       summary: {
-        type: Sequelize.DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
         },
       },
       type: {
-        type: Sequelize.DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
@@ -46,22 +52,24 @@ module.exports = {
         },
       },
       startDate: {
-        type: Sequelize.DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           isDate: true,
         },
       },
       endDate: {
-        type: Sequelize.DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           isDate: true,
         },
       },
-    });
-  },
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Posts");
-  },
+    },
+    {
+      sequelize,
+      modelName: "News",
+    }
+  );
+  return News;
 };
