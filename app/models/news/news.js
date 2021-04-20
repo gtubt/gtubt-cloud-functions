@@ -55,14 +55,35 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
+          is: /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/,
           isDate: true,
+          is_earlier_than_today(startDate) {
+            var d = new Date(),
+              month = "" + (d.getMonth() + 1),
+              day = "" + d.getDate(),
+              year = d.getFullYear();
+
+            if (month.length < 2) month = "0" + month;
+            if (day.length < 2) day = "0" + day;
+
+            let today = [year, month, day].join("-");
+            if (today > startDate) {
+              throw new Error("Start date can't be earlier than today.");
+            }
+          },
         },
       },
       endDate: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
+          is: /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/,
           isDate: true,
+          is_earlier_than_start_day(endDate) {
+            if (endDate < this.startDate) {
+              throw new Error("End date can't be earlier than start date.");
+            }
+          },
         },
       },
     },
