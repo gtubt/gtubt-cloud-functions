@@ -58,16 +58,9 @@ module.exports = (sequelize, DataTypes) => {
           is: /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/,
           isDate: true,
           is_earlier_than_today(startDate) {
-            var d = new Date(),
-              month = "" + (d.getMonth() + 1),
-              day = "" + d.getDate(),
-              year = d.getFullYear();
-
-            if (month.length < 2) month = "0" + month;
-            if (day.length < 2) day = "0" + day;
-
-            let today = [year, month, day].join("-");
-            if (today > startDate) {
+            var date = new Date(startDate)
+            let today = new Date()
+            if (today > date) {
               throw new Error("Start date can't be earlier than today.");
             }
           },
