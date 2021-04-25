@@ -13,7 +13,7 @@ const ticket_param_handler = async (req, res, next, value) => {
         res.status(404).json(utils.get_response_object(null, "Ticket can not be retrieved.", 404));
       });
   } else {
-    next();
+    res.status(404).json(utils.get_response_object(null, "No ticket ID provided.", 404));
   }
 };
 

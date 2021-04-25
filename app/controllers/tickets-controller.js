@@ -4,7 +4,7 @@ const utils = require("../utils");
 const get_all_tickets = async (req, res) => {
   Ticket.findAll({
     where: {
-      ownerId: req.firebase_user.id,
+      userId: req.firebase_user.id,
     },
   })
     .then((result) => {
@@ -21,15 +21,15 @@ const get_ticket = async (req, res, next) => {
 
 const create_ticket = async (req, res, next) => {
   const ticket_data = {
-    ownerId: req.firebase_user.id,
+    userId: req.firebase_user.id,
     eventId: req.event.id,
   };
 
   Ticket.create(ticket_data, {
     include: [
       {
-        association: Ticket.OwnerAssociation,
-        as: "ownerId",
+        association: Ticket.UserAssociation,
+        as: "userId",
       },
       {
         association: Ticket.EventAssociation,
@@ -52,7 +52,7 @@ const update_ticket = async (req, res, next) => {
   const body = req.body;
 
   const ticket_data = {
-    ownerId: body.owner_id == null ? ticket.ownerId : body.owner_id,
+    userId: body.user_id == null ? ticket.userId : body.user_id,
     eventId: body.event_id == null ? ticket.eventId : body.event_id,
   };
 

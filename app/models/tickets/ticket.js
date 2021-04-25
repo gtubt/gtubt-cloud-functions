@@ -2,7 +2,7 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Ticket extends Model {
-    static OwnerAssociation = null;
+    static UserAssociation = null;
     static EventAssociation = null;
     /**
      * Helper method for defining associations.
@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.OwnerAssociation = Ticket.belongsTo(models.User, { as: "owner", foreignKey: { allowNull: false } });
+      this.UserAssociation = Ticket.belongsTo(models.User, { as: "user", foreignKey: { allowNull: false } });
       this.EventAssociation = Ticket.belongsTo(models.Event, { as: "event", foreignKey: { allowNull: false } });
     }
   }
