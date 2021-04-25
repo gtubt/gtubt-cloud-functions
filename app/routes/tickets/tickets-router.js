@@ -15,13 +15,13 @@ ticket_router.param("event", event_route_param_handlers.event_param_handler);
 ticket_router.param("user", users_route_param_handlers.user_param_handler);
 
 // Get all tickets of user (self).
-ticket_router.all("/all/:user/:id?", middlewares.validate_user, middlewares.restrict_to_self, json_parser, tickets_controller.get_all_tickets);
+ticket_router.all("/all", middlewares.validate_user, middlewares.restrict_to_self, json_parser, tickets_controller.get_all_tickets);
 
 // Get one ticket of user (self).
-ticket_router.get("/:user/:ticket", middlewares.validate_user, middlewares.restrict_to_self, json_parser, tickets_controller.get_ticket);
+ticket_router.get("/:ticket", middlewares.validate_user, middlewares.restrict_to_self, json_parser, tickets_controller.get_ticket);
 
 // Create ticket for user at event.
-ticket_router.post("/:user/:event", middlewares.validate_user, middlewares.restrict_to_self, json_parser, tickets_controller.create_ticket);
+ticket_router.post("/:event", middlewares.validate_user, middlewares.restrict_to_self, json_parser, tickets_controller.create_ticket);
 
 // Update ticket with ID.
 ticket_router.patch("/:ticket", middlewares.restrict_to_admin, json_parser, tickets_controller.update_ticket);

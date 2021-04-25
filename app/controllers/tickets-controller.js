@@ -4,7 +4,7 @@ const utils = require("../utils");
 const get_all_tickets = async (req, res) => {
   Ticket.findAll({
     where: {
-      ownerId: req.user.id,
+      ownerId: req.firebase_user.id,
     },
   })
     .then((result) => {
