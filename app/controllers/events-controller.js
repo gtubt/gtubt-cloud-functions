@@ -2,9 +2,13 @@ const { Event } = require("../models");
 const utils = require("../utils");
 
 const get_all_events = async (req, res) => {
-  await Event.findAll().then((result) => {
-    res.status(200).json(result);
-  });
+  Event.findAll()
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((error) => {
+      res.status(404).json(utils.get_response_object(null, `Events can not be retrieved.`, 404));
+    });
 };
 
 const get_event = async (req, res, next) => {
@@ -14,7 +18,7 @@ const get_event = async (req, res, next) => {
 const create_event = async (req, res, next) => {
   const event_data = req.body;
 
-  await Event.create(event_data)
+  Event.create(event_data)
     .then((result) => {
       res.status(200).json(utils.get_response_object(event_data, "Event successfully created.", 200));
     })
@@ -34,7 +38,7 @@ const update_event = async (req, res, next) => {
     date: body.date == null ? event.date : body.date,
   };
 
-  await Event.update(event_data, {
+  Event.update(event_data, {
     where: {
       id: event.id,
     },
@@ -54,7 +58,7 @@ const update_event = async (req, res, next) => {
 const delete_event = async (req, res, next) => {
   const id = req.event.id;
 
-  await Event.destroy({
+  Event.destroy({
     where: {
       id: id,
     },

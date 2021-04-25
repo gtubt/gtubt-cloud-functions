@@ -10,9 +10,13 @@ const APP_PATH = path.resolve(__dirname, "..");
 const { PROFILE_PHOTO_PATH, BASE_URL } = require(APP_PATH + "/config/config.json")[env];
 
 const get_all_users = async (req, res) => {
-  await User.findAll().then((result) => {
-    res.status(200).json(result);
-  });
+  User.findAll()
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((error) => {
+      res.status(404).json(utils.get_response_object(null, `Users can not be retrieved.`, 404));
+    });
 };
 
 const get_user = async (req, res, next) => {
@@ -70,7 +74,7 @@ const upload_user_photo = async (req, res, next) => {
       const oldPhotoUrl = req.user.photoUrl;
 
       req.user.photoUrl = `${BASE_URL}/images/profile/${newGuid}`;
-      await req.user
+      req.user
         .save()
         .then((result) => {
           if (result[0] === 0) {
@@ -118,7 +122,7 @@ const update_user = async (req, res, next) => {
     photoUrl: user.photoUrl,
   };
 
-  await User.update(user_data, {
+  User.update(user_data, {
     where: {
       id: user.id,
     },
@@ -138,7 +142,7 @@ const update_user = async (req, res, next) => {
 const delete_user = async (req, res, next) => {
   const id = req.user.id;
 
-  await User.destroy({
+  User.destroy({
     where: {
       id: id,
     },
