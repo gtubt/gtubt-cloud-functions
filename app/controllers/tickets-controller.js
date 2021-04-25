@@ -2,17 +2,17 @@ const { Ticket } = require("../models");
 const utils = require("../utils");
 
 const get_all_tickets = async (req, res) => {
-  if (req.body == null || req.body.owner_id == null) {
-    res.status(404).json(utils.get_response_object(null, `Owner not found`, 404));
-  }
-
-  await Ticket.findAll({
+  Ticket.findAll({
     where: {
-      owner_id: req.body.owner_id,
+      ownerId: req.user.id,
     },
-  }).then((result) => {
-    res.status(200).json(result);
-  });
+  })
+    .then((result) => {
+      res.status(200).json(utils.get_response_object(result, "Tickets retrieved.", 200));
+    })
+    .catch((error) => {
+      res.status(404).json(utils.get_response_object(null, `Tickets can not be retrieved. Reason: ${error.errors[0].message}`, 404));
+    });
 };
 
 const get_ticket = async (req, res, next) => {
@@ -20,14 +20,28 @@ const get_ticket = async (req, res, next) => {
 };
 
 const create_ticket = async (req, res, next) => {
-  const ticket_data = req.body;
+  const ticket_data = {
+    ownerId: req.firebase_user.id,
+    eventId: req.event.id,
+  };
 
-  await Ticket.create(ticket_data)
+  Ticket.create(ticket_data, {
+    include: [
+      {
+        association: Ticket.OwnerAssociation,
+        as: "ownerId",
+      },
+      {
+        association: Ticket.EventAssociation,
+        as: "eventId",
+      },
+    ],
+  })
     .then((result) => {
       res.status(200).json(utils.get_response_object(ticket_data, "Ticket successfully created.", 200));
     })
     .catch((error) => {
-      res.status(404).json(utils.get_response_object(null, `Ticket can not be created. Reason: ${error.errors[0].message}`, 404));
+      res.status(404).json(utils.get_response_object(null, `Ticket can not be created. Reason: ${error}`, 404));
     });
 };
 
@@ -38,15 +52,11 @@ const update_ticket = async (req, res, next) => {
   const body = req.body;
 
   const ticket_data = {
-    owner_id: body.owner_id == null ? ticket.owner_id : body.owner_id,
-    title: body.title == null ? ticket.title : body.title,
-    name: body.name == null ? ticket.name : body.name,
-    location: body.location == null ? ticket.location : body.location,
-    codeUrl: body.codeUrl == null ? ticket.codeUrl : body.codeUrl,
-    date: body.date == null ? ticket.date : body.date,
+    ownerId: body.owner_id == null ? ticket.ownerId : body.owner_id,
+    eventId: body.event_id == null ? ticket.eventId : body.event_id,
   };
 
-  await Ticket.update(ticket_data, {
+  Ticket.update(ticket_data, {
     where: {
       id: ticket.id,
     },
@@ -67,7 +77,7 @@ const delete_ticket = async (req, res, next) => {
   res.status(200);
   const id = req.ticket.id;
 
-  await Ticket.destroy({
+  Ticket.destroy({
     where: {
       id: id,
     },
@@ -76,7 +86,6 @@ const delete_ticket = async (req, res, next) => {
       res.status(200).json(utils.get_response_object(null, "Ticket successfully deleted.", 200));
     })
     .catch((error) => {
-      console.log(error);
       res.status(404).json(utils.get_response_object(null, `Ticket can not be deleted. Reason: ${error.errors[0].message}`, 404));
     });
 };
