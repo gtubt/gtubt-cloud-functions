@@ -33,7 +33,7 @@ var updateData = {
 
 //Tests
 describe("News", () => {
-  describe("/CREATE news", () => {
+  describe("/POST news", () => {
     it("Should create news with designated data", (done) => {
       chai
         .request(server)
@@ -82,7 +82,7 @@ describe("News", () => {
         });
     });
   });
-  describe("/UPDATE news", function () {
+  describe("/PATCH news", function () {
     before(function (done) {
       News.create(newsData)
         .then((response) => {
