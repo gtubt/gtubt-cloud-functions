@@ -31,7 +31,9 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "axios": "^0.21.1",
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "mocha": "^2.4.5",
     "prettier": "2.2.1"
   },
   "swagger:edit": "swagger project edit"

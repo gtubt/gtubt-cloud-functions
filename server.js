@@ -16,3 +16,5 @@ server.listen(port, (err) => {
     console.log(`gtubt server is running at port ${port}`);
   }
 });
+
+module.exports = server;
