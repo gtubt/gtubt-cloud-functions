@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'test';
+process.env.NODE_ENV = "test";
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const server = require("../../server");
@@ -63,7 +63,6 @@ describe("News", () => {
         .request(server)
         .get("/api/v1/news/all/")
         .end((err, res) => {
-          console.log(err);
           expect(res).to.have.status(200);
           done();
         });
@@ -90,8 +89,7 @@ describe("News", () => {
           done();
         })
         .catch((err) => {
-          console.error("Error: " + err.message);
-          throw new Error("Oh no.");
+          throw new Error("Oh no. " + err);
         });
     });
     it("Should update the news with correspoding id", function (done) {
@@ -124,8 +122,7 @@ describe("News", () => {
           done();
         })
         .catch((err) => {
-          console.error("Error: " + err.message);
-          throw new Error("Oh no.");
+          throw new Error("Oh no. " + err);
         });
     });
     it("Should delete the news with corresonding id", function (done) {
