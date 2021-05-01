@@ -7,9 +7,6 @@ const { News } = require("../../app/models");
 const { expect } = chai;
 chai.use(chaiHttp);
 
-//Global Variables
-let lastCreatedNewsId;
-
 //Create News Object
 var newsData = {
   title: "Test",
@@ -43,14 +40,14 @@ describe("News", () => {
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body.Body).to.include(newsData);
-          lastCreatedNewsId = res.body.Body.id;
+          createdNewsId = res.body.Body.id;
           done();
         });
     });
-    after(function (done) {
+    after((done) => {
       News.destroy({
         where: {
-          id: lastCreatedNewsId,
+          id: createdNewsId,
         },
       }).then(() => {
         done();
@@ -58,6 +55,16 @@ describe("News", () => {
     });
   });
   describe("/GET all news", () => {
+    before((done) => {
+      News.create(newsData)
+        .then((response) => {
+          createdNewsId = response.dataValues.id;
+          done();
+        })
+        .catch((err) => {
+          throw new Error("Oh no. " + err);
+        });
+    });
     it("Should return all news", (done) => {
       chai
         .request(server)
@@ -67,35 +74,62 @@ describe("News", () => {
           done();
         });
     });
-  });
-  describe("/GET first news", function () {
-    it("Should return first news", (done) => {
-      chai
-        .request(server)
-        .get("/api/v1/news/1/")
-        .end((err, res) => {
-          console.log(err);
-          expect(res).to.have.status(200);
-          expect(res.body.Body.id).to.deep.equal(1);
-          done();
-        });
+    after((done) => {
+      News.destroy({
+        where: {
+          id: createdNewsId,
+        },
+      }).then(() => {
+        done();
+      });
     });
   });
-  describe("/PATCH news", function () {
-    before(function (done) {
+  describe("/GET first news", () => {
+    before((done) => {
       News.create(newsData)
         .then((response) => {
-          lastCreatedNewsId = response.dataValues.id;
+          createdNewsId = response.dataValues.id;
           done();
         })
         .catch((err) => {
           throw new Error("Oh no. " + err);
         });
     });
-    it("Should update the news with correspoding id", function (done) {
+    it("Should return first news", (done) => {
       chai
         .request(server)
-        .patch("/api/v1/news/" + lastCreatedNewsId)
+        .get("/api/v1/news/1/")
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.Body.id).to.deep.equal(1);
+          done();
+        });
+    });
+    after((done) => {
+      News.destroy({
+        where: {
+          id: createdNewsId,
+        },
+      }).then(() => {
+        done();
+      });
+    });
+  });
+  describe("/PATCH news", () => {
+    before((done) => {
+      News.create(newsData)
+        .then((response) => {
+          createdNewsId = response.dataValues.id;
+          done();
+        })
+        .catch((err) => {
+          throw new Error("Oh no. " + err);
+        });
+    });
+    it("Should update the news with correspoding id", (done) => {
+      chai
+        .request(server)
+        .patch("/api/v1/news/" + createdNewsId)
         .type("json")
         .send(updateData)
         .end((err, res) => {
@@ -104,31 +138,31 @@ describe("News", () => {
           done();
         });
     });
-    after(function (done) {
+    after((done) => {
       News.destroy({
         where: {
-          id: lastCreatedNewsId,
+          id: createdNewsId,
         },
       }).then(() => {
         done();
       });
     });
   });
-  describe("/DELETE news", function () {
-    before(function (done) {
+  describe("/DELETE news", () => {
+    before((done) => {
       News.create(newsData)
         .then((response) => {
-          lastCreatedNewsId = response.dataValues.id;
+          createdNewsId = response.dataValues.id;
           done();
         })
         .catch((err) => {
           throw new Error("Oh no. " + err);
         });
     });
-    it("Should delete the news with corresonding id", function (done) {
+    it("Should delete the news with corresonding id", (done) => {
       chai
         .request(server)
-        .delete("/api/v1/news/" + lastCreatedNewsId)
+        .delete("/api/v1/news/" + createdNewsId)
         .end((err, res) => {
           expect(res).to.have.status(200);
           done();
