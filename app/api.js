@@ -11,4 +11,8 @@ api.use("/events", events_router);
 api.use("/news", news_router);
 api.use("/tickets", tickets_router);
 
+api.get("/helloworld", (req, res, next) => {
+  res.status(200).send("Hello, World!");
+});
+
 module.exports = api;
