@@ -2,8 +2,8 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Ticket extends Model {
-    static UserAssociation = null;
-    static EventAssociation = null;
+    static UserAssociation;
+    static EventAssociation;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
