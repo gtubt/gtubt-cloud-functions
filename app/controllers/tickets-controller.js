@@ -1,4 +1,5 @@
 const { Ticket } = require("../models");
+const { Event } = require("../models");
 const utils = require("../utils");
 
 const get_all_tickets = async (req, res) => {
@@ -7,16 +8,39 @@ const get_all_tickets = async (req, res) => {
       userId: req.firebase_user.id,
     },
   })
-    .then((result) => {
-      res.status(200).json(utils.get_response_object(result, "Tickets retrieved.", 200));
+    .then(async (result) => {
+      let events = [];
+
+      for (i = 0; i < result.length; i++) {
+        ticket = result[i];
+        await Event.findByPk(ticket.dataValues.eventId)
+          .then((event) => {
+            events.push(event);
+          })
+          .catch((error) => {
+            // If one event is corrupt or not found, don't cancel whole operation, just continue for now.
+          });
+      }
+
+      res.status(200).json(utils.get_response_object(events, "Events of tickets retrieved.", 200));
     })
     .catch((error) => {
-      res.status(404).json(utils.get_response_object(null, `Tickets can not be retrieved. Reason: ${error.errors[0].message}`, 404));
+      res.status(404).json(utils.get_response_object(null, `Events of tickets can not be retrieved. Reason: ${error.errors[0].message}`, 404));
     });
 };
 
 const get_ticket = async (req, res, next) => {
-  res.status(200).json(utils.get_response_object(req.ticket, "Ticket received.", 200));
+  if (req.firebase_user.id == req.ticket.userId) {
+    Event.findByPk(req.ticket.eventId)
+      .then((result) => {
+        res.status(200).json(utils.get_response_object(result.dataValues, "Event of the ticket is received.", 200));
+      })
+      .catch((error) => {
+        res.status(404).json(utils.get_response_object(null, "Event of the ticket can not be retrieved.", 404));
+      });
+  } else {
+    res.status(401).json(utils.get_response_object(null, "User is not autohrized for the ticket.", 401));
+  }
 };
 
 const create_ticket = async (req, res, next) => {
