@@ -57,6 +57,7 @@ module.exports = {
           len: [8, 12],
         },
       },
+      photoUrl: DataTypes.STRING,
       phone: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
