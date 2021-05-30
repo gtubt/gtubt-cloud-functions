@@ -61,6 +61,9 @@ db.Sequelize = Sequelize;
   // Try to migrate pending migrations.
   await umzug.up();
 
+  if (env != 'development') {
+    return;
+  }
   // Sync models with table, can be destructive.
   // Instead, create a migration for changes on field types.
   await sequelize.sync({ alter: true });
