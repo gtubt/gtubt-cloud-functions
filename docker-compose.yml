@@ -8,3 +8,4 @@ services:
         volumes:
             - ./app:/usr/src/app/app
             - ./gtubt_db_dev:/usr/src/app/gtubt_db_dev
+            - /opt/data/photo:/opt/data/photo
