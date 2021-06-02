@@ -74,9 +74,11 @@ const upload_user_photo = async (req, res, next) => {
       const oldPhotoUrl = req.user.photoUrl;
 
       req.user.photoUrl = `${BASE_URL}/images/profile/${newGuid}`;
-      req.user
-        .save()
-        .then((result) => {
+      User.update(req.user, {
+        where: {
+          id: req.user.id,
+        },
+      }).then((result) => {
           if (result[0] === 0) {
             res.status(404).json(utils.get_response_object(null, "User can not be updated.", 404));
           } else {
