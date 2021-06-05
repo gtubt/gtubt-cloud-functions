@@ -2,7 +2,12 @@ const { News } = require("../models");
 const utils = require("../utils");
 
 const get_all_news = async (req, res) => {
-  await News.findAll().then((result) => {
+  await News.findAll({
+    order: [
+      ['startDate', 'DESC'],
+      ['endDate', 'ASC']
+    ]
+  }).then((result) => {
     res.status(200).json(result);
   });
 };
