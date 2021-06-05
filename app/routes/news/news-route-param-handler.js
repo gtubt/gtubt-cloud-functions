@@ -4,7 +4,7 @@ const utils = require("../../utils");
 const news_param_handler = async (req, res, next, value) => {
   if (!isNaN(value)) {
     const news_id = parseInt(value, 10);
-    Event.findByPk(news_id)
+    News.findByPk(news_id)
       .then((result) => {
         req.news = result.dataValues;
         next();

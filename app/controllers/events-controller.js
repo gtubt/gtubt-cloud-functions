@@ -2,7 +2,11 @@ const { Event } = require("../models");
 const utils = require("../utils");
 
 const get_all_events = async (req, res) => {
-  Event.findAll()
+  Event.findAll({
+    order: [
+      ['date', 'ASC'],
+    ]
+  })
     .then((result) => {
       res.status(200).json(result);
     })
