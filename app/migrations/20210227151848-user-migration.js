@@ -78,6 +78,28 @@ module.exports = {
           },
         },
       },
+      isAcceptKVKK: {
+        type: Sequelize.DataTypes.BOOLEAN,
+        allowNull: false,
+        validate: {
+          isAccepted(value) {
+            if (!value) {
+              throw new Error("KVKK must be accepted.");
+            }
+          },
+        },
+      },
+      isAcceptUserAgreement: {
+        type: Sequelize.DataTypes.BOOLEAN,
+        allowNull: false,
+        validate: {
+          isAccepted(value) {
+            if (!value) {
+              throw new Error("User agreement must be accepted.");
+            }
+          },
+        },
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

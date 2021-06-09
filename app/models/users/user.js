@@ -84,6 +84,28 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      isAcceptKVKK: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        validate: {
+          isAccepted(value) {
+            if (!value) {
+              throw new Error("KVKK must be accepted.");
+            }
+          },
+        },
+      },
+      isAcceptUserAgreement: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        validate: {
+          isAccepted(value) {
+            if (!value) {
+              throw new Error("User agreement must be accepted.");
+            }
+          },
+        },
+      },
     },
     {
       sequelize,
