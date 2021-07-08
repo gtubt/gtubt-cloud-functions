@@ -15,7 +15,10 @@ class UserViewSet(viewsets.ModelViewSet):
         self.service.create_user(**data)
 
     def perform_update(self, serializer):
-        pass
+        user = self.get_object()
+        update_data = serializer.validated_data
+        self.service.update_user(user, **update_data)
 
     def perform_destroy(self, instance):
-        pass
+        user = self.get_object()
+        self.service.delete_user(user)
