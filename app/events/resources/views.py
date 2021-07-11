@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.exceptions import MethodNotAllowed
 
 from app.events.models import Event
 from app.events.resources.serializers import EventSerializer
@@ -20,4 +21,4 @@ class EventViewSet(viewsets.ModelViewSet):
         self.service.update_event(event, **data)
 
     def perform_destroy(self, instance):
-        pass
+        raise MethodNotAllowed()

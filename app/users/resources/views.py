@@ -20,5 +20,4 @@ class UserViewSet(viewsets.ModelViewSet):
         self.service.update_user(user, **update_data)
 
     def perform_destroy(self, instance):
-        user = self.get_object()
-        self.service.delete_user(user)
+        self.service.delete_user(instance)
