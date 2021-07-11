@@ -8,7 +8,7 @@ class PBaseException(Exception):
 
     def __init__(self, *args, **kwargs):
         code = self.code.get("code", "undefined")
-        self.message = getattr(self.codes, "{}".format(code))
+        self.message = getattr(self.codes, "{}".format(code)).get("msg")
         self.params = kwargs.get("params")
         if self.params and isinstance(self.params, dict):
             self.message = smart_text(self.message).format(**self.params)
