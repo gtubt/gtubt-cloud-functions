@@ -1,14 +1,22 @@
 from django.db.transaction import atomic
 
 from app.users import exceptions
+from app.users.enums import Department
 from app.users.models import User
 
 
 class UserService(object):
     @staticmethod
     def create_user(
-        name, last_name, department, email, student_id, photo_url, phone, **kwargs
-    ):
+        name: str,
+        last_name: str,
+        department: Department.choices,
+        email: str,
+        student_id: str,
+        photo_url: str,
+        phone: str,
+        **kwargs: dict,
+    ) -> User:
         try:
             User.objects.get(email=email)
             raise exceptions.UserDuplicatedFieldException()
@@ -23,14 +31,14 @@ class UserService(object):
             student_id=student_id,
             photo_url=photo_url,
             phone=phone,
-            **kwargs
+            **kwargs,
         )
         with atomic():
             user.save()
         return user
 
     @staticmethod
-    def update_user(user, **kwargs):
+    def update_user(user: User, **kwargs: dict) -> User:
         kwargs.pop("id", None)
         new_email = kwargs.pop("email", None)
         try:
@@ -47,6 +55,6 @@ class UserService(object):
         return user
 
     @staticmethod
-    def delete_user(user):
+    def delete_user(user: User):
         user.is_active = False
         user.save(update_fields=["is_active"])
